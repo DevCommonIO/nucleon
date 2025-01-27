@@ -2,7 +2,8 @@ import React, { createContext, useContext, useState } from 'react';
 
 interface AuthContextProps {
   isLoggedIn: boolean;
-  login: (email: string, password: string) => boolean;
+  token: string;
+  login: (email: string, password: string) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -12,9 +13,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [token, setToken] = useState('');
 
-  const login = (email: string, password: string): boolean => {
-    if (email === 'test@example.com' && password === 'password123') {
+  const login = async (email: string, password: string): Promise<boolean> => {
+    if (email === 'test@example.com' && password === '123') {
       setIsLoggedIn(true);
       return true;
     }
@@ -26,7 +28,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+    <AuthContext.Provider value={{ isLoggedIn, token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

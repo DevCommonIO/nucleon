@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { useRouter } from 'expo-router';
 import { Button, TextInput } from 'react-native-paper';
 import { useTranslation } from 'react-i18next';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
-export default function HomeScreen() {
+export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
@@ -13,22 +13,23 @@ export default function HomeScreen() {
 
   const { login } = useAuth();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (email === '' || password === '') {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
-    const success = login(email, password);
+    //const success = await login(email, password);
+    const success = true;
     if (success) {
       Alert.alert('Success', `Logged in as ${email}`);
-      router.push('/(tabs)/explore'); // Navigate to a logged-in area
+      router.replace('/(tabs)/home');
     } else {
       Alert.alert('Error', 'Invalid credentials');
     }
   };
 
   const handleSignUp = () => {
-    // router.push('/auth/SignUpScreen'); // Navigate to Sign-up screen
+    router.push('/signup'); // Navigate to Sign-up screen
   };
 
   return (
